@@ -1,0 +1,49 @@
+extends:
+  ["airbnb-typescript", "plugin:@typescript-eslint/recommended", "react-app"]
+
+parser: "@typescript-eslint/parser"
+parserOptions:
+  project: "./tsconfig.json"
+
+plugins: ["@typescript-eslint", "mocha", "header", "security", "react-hooks"]
+
+rules:
+  "@typescript-eslint/no-inferrable-types": off
+  "@typescript-eslint/comma-dangle": off
+  "import/no-extraneous-dependencies":
+    ["error", { "devDependencies": ["**/test/**/*.ts"] }]
+  prefer-arrow-callback: ["error", { "allowNamedFunctions": true }]
+  comma-dangle:
+    [
+      "error",
+      {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never",
+      },
+    ]
+
+  valid-jsdoc: ["error", { "requireReturn": false }]
+  max-len: ["error", { "code": 150 }]
+  "mocha/no-exclusive-tests": "error"
+  "mocha/no-skipped-tests": "error"
+  "mocha/handle-done-callback": "error"
+  "mocha/no-identical-title": "error"
+  "header/header":
+    [
+      2,
+      "block",
+      [
+        "*",
+        " * This source code is and remains the property of UserZoom Technologies Inc (sucursal en España).",
+        " * Dissemination of this information or reproduction of this material is strictly",
+        " * forbidden unless prior written permission is obtained from",
+        " * UserZoom Technologies Inc (sucursal en España) (https://www.userzoom.com).",
+        " *",
+      ],
+    ]
+  "spaced-comment": ["error", "always", { "block": { "exceptions": ["*"] } }]
+
+root: true
