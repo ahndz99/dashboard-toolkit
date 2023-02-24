@@ -16,14 +16,12 @@ export type FieldsTypes = {
 
 export type FormType = {
   fields: FieldsTypes;
-  values: { [x: string]: string | boolean | number };
-  setValues: Dispatch<
-    SetStateAction<{ [x: string]: string | boolean | number }>
-  >;
+  values: { [x: string]: any };
+  setFieldValue: (name: string, value: any) => void;
   errors: { [x: string]: string[] };
-  setErrors: Dispatch<SetStateAction<{ [x: string]: string[] }>>;
+  setFieldError: (name: string, value: string[]) => void;
   touched: { [x: string]: boolean };
-  setTouched: Dispatch<SetStateAction<{ [x: string]: boolean }>>;
+  setFieldTouched: (name: string, value: boolean) => void;
   isTouched: (name: string) => boolean;
   handleChange: (e: any) => void;
   handleBlur: (e: any) => void;

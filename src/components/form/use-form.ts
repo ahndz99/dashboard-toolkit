@@ -12,12 +12,33 @@ type Props = {
 
 const useForm = ({ fields, onSubmit }: Props): FormType => {
   const [values, setValues] = useState<{
-    [x: string]: string | boolean | number;
+    [x: string]: any;
   }>({});
+
+  const setFieldValue = (name: string, value: any) => {
+    setValues((values) => ({
+      ...values,
+      [name]: value,
+    }));
+  };
 
   const [errors, setErrors] = useState<{ [x: string]: string[] }>({});
 
+  const setFieldError = (name: string, value: string[]) => {
+    setErrors((errors) => ({
+      ...errors,
+      [name]: value,
+    }));
+  };
+
   const [touched, setTouched] = useState<{ [x: string]: boolean }>({});
+
+  const setFieldTouched = (name: string, value: boolean) => {
+    setTouched((touched) => ({
+      ...touched,
+      [name]: value,
+    }));
+  };
 
   useEffect(() => {
     setValues(
@@ -87,11 +108,17 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
   }, [values]);
 
   const handleChange = (e: any) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+
+    let currValue = value;
+
+    if (type === "checkbox") {
+      currValue = checked;
+    }
 
     setValues((values) => ({
       ...values,
-      [name]: value,
+      [name]: currValue,
     }));
   };
 
@@ -113,11 +140,11 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
     e.preventDefault();
     onSubmit({
       values,
-      setValues,
+      setFieldValue,
       errors,
-      setErrors,
+      setFieldError,
       touched,
-      setTouched,
+      setFieldTouched,
       isTouched,
       handleChange,
       handleBlur,
@@ -127,11 +154,11 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
 
   return {
     values,
-    setValues,
+    setFieldValue,
     errors,
-    setErrors,
+    setFieldError,
     touched,
-    setTouched,
+    setFieldTouched,
     isTouched,
     handleChange,
     handleBlur,

@@ -15,7 +15,12 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template = (args) => {
-  return <Form fields={args.fields} onSubmit={args.onSubmit} />;
+  return (
+    <div>
+      <h1>Form</h1>
+      <Form fields={args.fields} onSubmit={args.onSubmit} />
+    </div>
+  );
 };
 
 const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
@@ -24,7 +29,7 @@ const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
   return (
     <div>
       <input
-        type="text"
+        type="checkbox"
         name={name}
         onChange={handleChange}
         onBlur={handleBlur}
