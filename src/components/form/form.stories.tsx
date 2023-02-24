@@ -44,7 +44,6 @@ const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
 };
 
 export const Default = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Default.args = {
   onSubmit: (form: any) => {
     console.log(form);
@@ -71,7 +70,56 @@ Default.args = {
       },
     },
     nombre: {
+      value: false,
       custom: CustomInput,
+      options: {
+        maxLength: 10,
+        minLength: 2,
+        mandatory: true,
+      },
+    },
+    aceptarCondiciones: {
+      value: false,
+      label: "This is the label",
+      type: "checkbox",
+      options: {
+        maxLength: 10,
+        minLength: 2,
+        mandatory: true,
+      },
+    },
+  },
+};
+
+export const TextInput = Template.bind({});
+TextInput.args = {
+  onSubmit: (form: any) => {
+    console.log(form);
+  },
+  fields: {
+    hola: {
+      value: "hola a ti",
+      label: "This is the label",
+      type: "text",
+      options: {
+        maxLength: 10,
+        minLength: 2,
+        mandatory: true,
+      },
+    },
+  },
+};
+
+export const CheckboxInput = Template.bind({});
+CheckboxInput.args = {
+  onSubmit: (form: any) => {
+    console.log(form);
+  },
+  fields: {
+    hola: {
+      value: "hola a ti",
+      label: "This is the label",
+      type: "checkbox",
       options: {
         maxLength: 10,
         minLength: 2,

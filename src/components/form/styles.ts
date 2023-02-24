@@ -27,6 +27,10 @@ export default css`
   .text-input {
     border: 1px solid #ccc;
     padding: 10px;
-    border-radius: 10px;
+    border-radius: 5px;
+  }
+
+  .checkbox-input {
+    margin-right: auto;
   }
 `;
