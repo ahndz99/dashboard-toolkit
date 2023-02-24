@@ -5,9 +5,14 @@ const minLengthErrorText = "This text should be larger";
 const maxLengthErrorText = "This text should be shorter";
 const mandatoryErrorText = "This text is mandatory";
 
-const useForm = (fields: FieldsTypes): FormType => {
+type Props = {
+  fields: FieldsTypes;
+  onSubmit: (form: FormType) => void;
+};
+
+const useForm = ({ fields, onSubmit }: Props): FormType => {
   const [values, setValues] = useState<{
-    [x: string]: string | boolean | number | undefined;
+    [x: string]: string | boolean | number;
   }>({});
 
   const [errors, setErrors] = useState<{ [x: string]: string[] }>({});
@@ -18,7 +23,7 @@ const useForm = (fields: FieldsTypes): FormType => {
     setValues(
       Object.keys(fields)
         .map((key: string) => {
-          return { [key]: fields[key].value };
+          return { [key]: fields[key].value ?? "" };
         })
         .reduce((acc, curr) => ({ ...acc, ...curr }), {})
     );
@@ -81,7 +86,7 @@ const useForm = (fields: FieldsTypes): FormType => {
     });
   }, [values]);
 
-  const onChange = (e: any) => {
+  const handleChange = (e: any) => {
     const { name, value } = e.target;
 
     setValues((values) => ({
@@ -90,7 +95,7 @@ const useForm = (fields: FieldsTypes): FormType => {
     }));
   };
 
-  const onBlur = (e: any) => {
+  const handleBlur = (e: any) => {
     const { name, value } = e.target;
 
     setTouched((touched) => ({
@@ -104,6 +109,22 @@ const useForm = (fields: FieldsTypes): FormType => {
     [touched]
   );
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    onSubmit({
+      values,
+      setValues,
+      errors,
+      setErrors,
+      touched,
+      setTouched,
+      isTouched,
+      handleChange,
+      handleBlur,
+      fields,
+    });
+  };
+
   return {
     values,
     setValues,
@@ -112,9 +133,10 @@ const useForm = (fields: FieldsTypes): FormType => {
     touched,
     setTouched,
     isTouched,
-    onChange,
-    onBlur,
+    handleChange,
+    handleBlur,
     fields,
+    handleSubmit,
   };
 };
 

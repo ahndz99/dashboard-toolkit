@@ -16,17 +16,18 @@ export type FieldsTypes = {
 
 export type FormType = {
   fields: FieldsTypes;
-  values: { [x: string]: string | boolean | number | undefined };
+  values: { [x: string]: string | boolean | number };
   setValues: Dispatch<
-    SetStateAction<{ [x: string]: string | boolean | number | undefined }>
+    SetStateAction<{ [x: string]: string | boolean | number }>
   >;
   errors: { [x: string]: string[] };
   setErrors: Dispatch<SetStateAction<{ [x: string]: string[] }>>;
   touched: { [x: string]: boolean };
   setTouched: Dispatch<SetStateAction<{ [x: string]: boolean }>>;
   isTouched: (name: string) => boolean;
-  onChange: (e: any) => void;
-  onBlur: (e: any) => void;
+  handleChange: (e: any) => void;
+  handleBlur: (e: any) => void;
+  handleSubmit?: (e: any) => void;
 };
 
 export enum InputType {

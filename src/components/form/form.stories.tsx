@@ -15,15 +15,20 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template = (args) => {
-  return <Form fields={args.fields} />;
+  return <Form fields={args.fields} onSubmit={args.onSubmit} />;
 };
 
 const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
-  const { values, errors, onChange, onBlur } = form;
+  const { values, errors, handleChange, handleBlur } = form;
 
   return (
     <div>
-      <input type="text" name={name} onChange={onChange} onBlur={onBlur} />
+      <input
+        type="text"
+        name={name}
+        onChange={handleChange}
+        onBlur={handleBlur}
+      />
       <div className="errors">
         {(errors[name] ?? []).map((error) => (
           <span className="error">{error}</span>
@@ -36,6 +41,9 @@ const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
 export const Default = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Default.args = {
+  onSubmit: (form: any) => {
+    console.log(form);
+  },
   fields: {
     hola: {
       value: "hola a ti",

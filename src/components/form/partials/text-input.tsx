@@ -1,22 +1,21 @@
 import React from "react";
-import InputLayout from "./input-layout";
 
 type Props = {
   name: string;
   value: string;
-  onChange: (e: any) => void;
-  onBlur: (e: any) => void;
+  handleChange: (e: any) => void;
+  handleBlur: (e: any) => void;
 };
 
-const TextInput = ({ name, value, onChange, onBlur }: Props) => {
+const TextInput = ({ name, value, handleChange, handleBlur }: Props) => {
   return (
     <input
       className="text-input"
       type="text"
       name={name}
       value={value}
-      onChange={onChange}
-      onBlur={onBlur}
+      onChange={handleChange}
+      onBlur={handleBlur}
     />
   );
 };
