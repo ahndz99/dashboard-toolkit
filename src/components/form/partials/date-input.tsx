@@ -8,8 +8,6 @@ type Props = {
 };
 
 const DateInput = ({ name, value, handleChange, handleBlur }: Props) => {
-  console.log({ value });
-
   const date = useMemo(() => {
     try {
       return new Date(value).toISOString().split("T")[0];

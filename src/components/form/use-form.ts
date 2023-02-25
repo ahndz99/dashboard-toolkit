@@ -78,12 +78,14 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
             newErrors[key] = errors[key].filter(
               (errorItem) => errorItem !== textError
             );
+            if (newErrors[key].length === 0) {
+              delete newErrors[key];
+            }
           }
         }
       };
 
       if (!!fieldOptions?.mandatory) {
-        console.log("entra 1");
         addOrRemoveFromErrors(!value, mandatoryErrorText);
       }
 
@@ -142,9 +144,8 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-
+    console.log(errors);
     if (Object.keys(errors).length > 0) {
-      console.log("entra");
       setTouched(
         Object.keys(values)
           .map((key: string) => ({ [key]: true }))

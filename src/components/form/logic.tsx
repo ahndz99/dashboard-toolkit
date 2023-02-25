@@ -23,8 +23,6 @@ type Props = {
 };
 
 const Form = ({ className = "", fields, sections, onSubmit }: Props) => {
-  console.log({ fields, sections });
-
   const form = useForm({ fields, onSubmit });
 
   const { handleSubmit, values, errors, handleBlur, handleChange, isTouched } =
@@ -55,11 +53,11 @@ const Form = ({ className = "", fields, sections, onSubmit }: Props) => {
   const renderForm = (fields: FieldsTypes) => {
     return Object.keys(values)
       .filter((key) => fields[key])
-      .map((key) =>
-        !!fields[key]?.custom ? (
-          fields[key].custom?.({ name: key, form })
-        ) : (
-          <>
+      .map((key) => (
+        <div key={key}>
+          {!!fields[key]?.custom ? (
+            fields[key].custom?.({ name: key, form })
+          ) : (
             <InputLayout label={fields[key].label ?? ""}>
               {createElement(
                 InputComponent[fields[key].type ?? InputType.Text],
@@ -79,9 +77,9 @@ const Form = ({ className = "", fields, sections, onSubmit }: Props) => {
                 </div>
               )}
             </InputLayout>
-          </>
-        )
-      );
+          )}
+        </div>
+      ));
   };
 
   return (

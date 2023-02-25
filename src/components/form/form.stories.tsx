@@ -15,7 +15,6 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template = (args) => {
-  console.log({ args: args });
   return (
     <div>
       <h1>Form</h1>
@@ -28,8 +27,12 @@ const Template = (args) => {
   );
 };
 
+const onSubmit = (form: any) => {
+  alert(JSON.stringify(form, null, 4));
+};
+
 const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
-  const { values, errors, handleChange, handleBlur, isTouched } = form;
+  const { errors, handleChange, handleBlur, isTouched } = form;
 
   return (
     <div>
@@ -52,9 +55,7 @@ const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  onSubmit: (form: any) => {
-    console.log(form);
-  },
+  onSubmit,
   sections: [
     {
       title: "Section 1",
@@ -65,6 +66,16 @@ Default.args = {
       title: "Section 2",
       subtitle: "Section 2 subtitle",
       fields: ["text2", "textarea"],
+    },
+    {
+      title: "Section 3",
+      subtitle: "Section 3 subtitle",
+      fields: ["custom"],
+    },
+    {
+      title: "Section 4",
+      subtitle: "Section 4 subtitle",
+      fields: ["checkbox"],
     },
   ],
   fields: {
@@ -110,9 +121,7 @@ Default.args = {
       value: false,
       custom: CustomInput,
       options: {
-        maxLength: 10,
-        minLength: 2,
-        mandatory: true,
+        mandatory: false,
       },
     },
     checkbox: {
@@ -130,9 +139,7 @@ Default.args = {
 
 export const TextInput = Template.bind({});
 TextInput.args = {
-  onSubmit: (form: any) => {
-    console.log(form);
-  },
+  onSubmit,
   fields: {
     hola: {
       value: "hola a ti",
@@ -149,9 +156,7 @@ TextInput.args = {
 
 export const CheckboxInput = Template.bind({});
 CheckboxInput.args = {
-  onSubmit: (form: any) => {
-    console.log(form);
-  },
+  onSubmit,
   fields: {
     hola: {
       value: "hola a ti",
@@ -168,9 +173,7 @@ CheckboxInput.args = {
 
 export const DateInput = Template.bind({});
 DateInput.args = {
-  onSubmit: (form: any) => {
-    console.log(form);
-  },
+  onSubmit,
   fields: {
     hola: {
       value: null,
@@ -185,9 +188,7 @@ DateInput.args = {
 
 export const TextAreaInput = Template.bind({});
 TextAreaInput.args = {
-  onSubmit: (form: any) => {
-    console.log(form);
-  },
+  onSubmit,
   fields: {
     hola: {
       value: "hola a ti",
@@ -203,9 +204,7 @@ TextAreaInput.args = {
 
 export const RadioInput = Template.bind({});
 RadioInput.args = {
-  onSubmit: (form: any) => {
-    console.log(form);
-  },
+  onSubmit,
   fields: {
     radio: {
       value: "hola a ti",
@@ -235,14 +234,26 @@ RadioInput.args = {
 
 export const SelectInput = Template.bind({});
 SelectInput.args = {
-  onSubmit: (form: any) => {
-    console.log(form);
-  },
+  onSubmit,
   fields: {
     hola: {
       value: "hola a ti",
+      valueOptions: [
+        {
+          label: "option 1",
+          value: "option1",
+        },
+        {
+          label: "option 2",
+          value: "option2",
+        },
+        {
+          label: "option 3",
+          value: "option3",
+        },
+      ],
       label: "This is the label",
-      type: "textarea",
+      type: "select",
       options: {
         minLength: 2,
         mandatory: true,
