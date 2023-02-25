@@ -10,9 +10,9 @@ export type FieldsTypes = {
       maxLength?: number;
       minLength?: number;
       mandatory?: boolean;
-      customValidation?: (
-        value: any
-      ) => { name: string; invalid: boolean; message: string }[];
+      customValidation?: (value: any) => {
+        [x: string]: { invalid: boolean; message?: string };
+      };
     };
     valueOptions?: {
       label: string;

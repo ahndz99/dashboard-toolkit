@@ -88,19 +88,17 @@ Default.args = {
         minLength: 2,
         mandatory: true,
         customValidation: (value: any) => {
-          let errors = {};
-          if (value === "hola") {
-            errors = {
-              ...errors,
-              name: "hola",
-              invalid: false,
+          let errors: { [x: string]: { invalid: boolean; message?: string } } =
+            {
+              hola: { invalid: false },
             };
-          } else {
+
+          if (value !== "hola") {
             errors = {
-              ...errors,
-              name: "hola",
-              invalid: true,
-              message: "El texto debe decir hola",
+              hola: {
+                invalid: true,
+                message: "El texto debe decir hola",
+              },
             };
           }
           return errors;

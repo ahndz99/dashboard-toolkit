@@ -61,20 +61,23 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
 
       const addOrRemoveFromErrors = (
         name: string,
-        isTrue: boolean,
+        invalid: boolean,
         textError: string
       ) => {
         const error = newErrors[key] ?? [];
 
         const haveErrorInItem = error[name];
 
-        if (isTrue) {
+        if (invalid) {
           if (!haveErrorInItem) {
             newErrors[key] = { ...error, ...{ [name]: textError } };
           }
         } else {
           if (haveErrorInItem) {
-            delete errors[key][name];
+            delete newErrors[key][name];
+          }
+          if (!newErrors[key] || Object.keys(newErrors[key]).length === 0) {
+            delete newErrors[key];
           }
         }
       };
@@ -103,9 +106,9 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
 
       if (!!fieldOptions?.customValidation) {
         const validations = fieldOptions?.customValidation(value);
-        Object.keys(validations).forEach((key) => {
-          const { name, invalid, message } = validations[key];
-          addOrRemoveFromErrors(name, invalid, message);
+        Object.keys(validations).forEach((key: string) => {
+          const { invalid, message } = validations[key];
+          addOrRemoveFromErrors(key, invalid, message ?? "");
         });
       }
 
