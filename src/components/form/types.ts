@@ -11,6 +11,10 @@ export type FieldsTypes = {
       minLength?: number;
       mandatory?: boolean;
     };
+    valueOptions?: {
+      label: string;
+      value: string;
+    };
   };
 };
 
@@ -30,8 +34,9 @@ export type FormType = {
 
 export enum InputType {
   Text = "text",
-  TextArea = "TextArea",
+  TextArea = "textarea",
   Select = "select",
   Date = "date",
   Checkbox = "checkbox",
+  Radio = "radio",
 }

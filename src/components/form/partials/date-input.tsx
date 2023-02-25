@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 type Props = {
   name: string;
@@ -7,18 +7,27 @@ type Props = {
   handleBlur: (e: any) => void;
 };
 
-const TextInput = ({ name, value, handleChange, handleBlur }: Props) => {
+const DateInput = ({ name, value, handleChange, handleBlur }: Props) => {
   console.log({ value });
+
+  const date = useMemo(() => {
+    try {
+      return new Date(value).toISOString().split("T")[0];
+    } catch (error) {
+      return value;
+    }
+  }, [value]);
+
   return (
     <input
       className="text-input"
       type="date"
       name={name}
-      value={new Date(value).toISOString().split("T")[0]}
+      value={date}
       onChange={handleChange}
       onBlur={handleBlur}
     />
   );
 };
 
-export default TextInput;
+export default DateInput;

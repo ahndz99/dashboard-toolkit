@@ -30,7 +30,8 @@ export default css`
     border-radius: 5px;
   }
 
-  .checkbox-input {
+  .checkbox-input,
+  .radio-input {
     margin-right: auto;
   }
 `;

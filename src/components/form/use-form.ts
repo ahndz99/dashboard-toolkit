@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FieldsTypes, FormType } from "./types";
 
-const minLengthErrorText = "This text should be larger";
-const maxLengthErrorText = "This text should be shorter";
-const mandatoryErrorText = "This text is mandatory";
+const minLengthErrorText = "This field should be larger";
+const maxLengthErrorText = "This field should be shorter";
+const mandatoryErrorText = "This field is mandatory";
 
 type Props = {
   fields: FieldsTypes;
@@ -143,7 +143,8 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    if (errors) {
+    if (Object.keys(errors).length > 0) {
+      console.log("entra");
       setTouched(
         Object.keys(values)
           .map((key: string) => ({ [key]: true }))

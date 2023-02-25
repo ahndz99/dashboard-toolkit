@@ -15,19 +15,25 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template = (args) => {
+  console.log({ args: args });
   return (
     <div>
       <h1>Form</h1>
-      <Form fields={args.fields} onSubmit={args.onSubmit} />
+      <Form
+        fields={args.fields}
+        sections={args.sections}
+        onSubmit={args.onSubmit}
+      />
     </div>
   );
 };
 
 const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
-  const { values, errors, handleChange, handleBlur } = form;
+  const { values, errors, handleChange, handleBlur, isTouched } = form;
 
   return (
     <div>
+      <label htmlFor="">Custom input</label>
       <input
         type="checkbox"
         name={name}
@@ -35,9 +41,10 @@ const CustomInput = ({ name, form }: { name: string; form: FormType }) => {
         onBlur={handleBlur}
       />
       <div className="errors">
-        {(errors[name] ?? []).map((error) => (
-          <span className="error">{error}</span>
-        ))}
+        {isTouched(name) &&
+          (errors[name] ?? []).map((error) => (
+            <span className="error">{error}</span>
+          ))}
       </div>
     </div>
   );
@@ -48,8 +55,15 @@ Default.args = {
   onSubmit: (form: any) => {
     console.log(form);
   },
+  sections: [
+    {
+      title: "Section 1",
+      subtitle: "Section subtitle",
+      fields: ["text", "date"],
+    },
+  ],
   fields: {
-    hola: {
+    text: {
       value: "hola a ti",
       label: "This is the label",
       type: "text",
@@ -59,7 +73,15 @@ Default.args = {
         mandatory: true,
       },
     },
-    adios: {
+    date: {
+      value: null,
+      label: "This is the label",
+      type: "date",
+      options: {
+        mandatory: true,
+      },
+    },
+    text2: {
       value: "hola a ti",
       label: "This is the label",
       type: "text",
@@ -69,7 +91,17 @@ Default.args = {
         mandatory: true,
       },
     },
-    nombre: {
+    textarea: {
+      value: "hola a ti",
+      label: "This is the label",
+      type: "textarea",
+      options: {
+        maxLength: 10,
+        minLength: 2,
+        mandatory: true,
+      },
+    },
+    custom: {
       value: false,
       custom: CustomInput,
       options: {
@@ -78,9 +110,9 @@ Default.args = {
         mandatory: true,
       },
     },
-    aceptarCondiciones: {
+    checkbox: {
       value: false,
-      label: "This is the label",
+      label: "Accpet conditions",
       type: "checkbox",
       options: {
         maxLength: 10,
@@ -129,9 +161,6 @@ CheckboxInput.args = {
   },
 };
 
-const d = new Date();
-d.setDate(d.getDate() - 5);
-
 export const DateInput = Template.bind({});
 DateInput.args = {
   onSubmit: (form: any) => {
@@ -139,10 +168,78 @@ DateInput.args = {
   },
   fields: {
     hola: {
-      value: d,
+      value: null,
       label: "This is the label",
       type: "date",
       options: {
+        mandatory: true,
+      },
+    },
+  },
+};
+
+export const TextAreaInput = Template.bind({});
+TextAreaInput.args = {
+  onSubmit: (form: any) => {
+    console.log(form);
+  },
+  fields: {
+    hola: {
+      value: "hola a ti",
+      label: "This is the label",
+      type: "textarea",
+      options: {
+        minLength: 2,
+        mandatory: true,
+      },
+    },
+  },
+};
+
+export const RadioInput = Template.bind({});
+RadioInput.args = {
+  onSubmit: (form: any) => {
+    console.log(form);
+  },
+  fields: {
+    radio: {
+      value: "hola a ti",
+      valueOptions: [
+        {
+          label: "option 1",
+          value: "option1",
+        },
+        {
+          label: "option 2",
+          value: "option2",
+        },
+        {
+          label: "option 3",
+          value: "option3",
+        },
+      ],
+      label: "This is the label",
+      type: "radio",
+      options: {
+        minLength: 2,
+        mandatory: true,
+      },
+    },
+  },
+};
+
+export const SelectInput = Template.bind({});
+SelectInput.args = {
+  onSubmit: (form: any) => {
+    console.log(form);
+  },
+  fields: {
+    hola: {
+      value: "hola a ti",
+      label: "This is the label",
+      type: "textarea",
+      options: {
+        minLength: 2,
         mandatory: true,
       },
     },
