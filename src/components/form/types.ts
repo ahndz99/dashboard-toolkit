@@ -26,6 +26,7 @@ export type FormType = {
   values: { [x: string]: any };
   setFieldValue: (name: string, value: any) => void;
   errors: { [x: string]: { [x: string]: string } };
+  setFieldError: (name: string, error: { [x: string]: string }) => void;
   touched: { [x: string]: boolean };
   setFieldTouched: (name: string, value: boolean) => void;
   isTouched: (name: string) => boolean;

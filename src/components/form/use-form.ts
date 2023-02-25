@@ -26,7 +26,12 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
     [x: string]: { [x: string]: string };
   }>({});
 
-  console.log({ errors });
+  const setFieldError = (name: string, error: { [x: string]: string }) => {
+    setErrors((errors) => ({
+      ...errors,
+      [name]: error,
+    }));
+  };
 
   const [touched, setTouched] = useState<{ [x: string]: boolean }>({});
 
@@ -165,6 +170,7 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
       values,
       setFieldValue,
       errors,
+      setFieldError,
       touched,
       setFieldTouched,
       isTouched,
@@ -178,6 +184,7 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
     values,
     setFieldValue,
     errors,
+    setFieldError,
     touched,
     setFieldTouched,
     isTouched,
