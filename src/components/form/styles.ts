@@ -1,6 +1,29 @@
 import { css } from "styled-components";
 
 export default css`
+  .section-layout {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .section-title {
+      margin-bottom: 10px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .section-subtitle {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .section-content {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  }
+
   .input-layout {
     display: flex;
     flex-direction: column;

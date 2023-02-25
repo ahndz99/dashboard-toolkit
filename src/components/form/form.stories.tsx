@@ -61,6 +61,11 @@ Default.args = {
       subtitle: "Section subtitle",
       fields: ["text", "date"],
     },
+    {
+      title: "Section 2",
+      subtitle: "Section 2 subtitle",
+      fields: ["text2", "textarea"],
+    },
   ],
   fields: {
     text: {

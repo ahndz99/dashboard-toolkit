@@ -32,7 +32,7 @@ const Form = ({ className = "", fields, sections, onSubmit }: Props) => {
 
   const sectionValues = useMemo(
     () =>
-      sections.map((section) => ({
+      (sections ?? []).map((section) => ({
         ...section,
         fields: section.fields
           .map((key: string) => {
@@ -52,44 +52,51 @@ const Form = ({ className = "", fields, sections, onSubmit }: Props) => {
     [InputType.Radio]: RadioInput,
   };
 
+  const renderForm = (fields: FieldsTypes) => {
+    return Object.keys(values)
+      .filter((key) => fields[key])
+      .map((key) =>
+        !!fields[key]?.custom ? (
+          fields[key].custom?.({ name: key, form })
+        ) : (
+          <>
+            <InputLayout label={fields[key].label ?? ""}>
+              {createElement(
+                InputComponent[fields[key].type ?? InputType.Text],
+                {
+                  name: key,
+                  value: values[key].toString(),
+                  options: fields[key]?.valueOptions,
+                  handleChange,
+                  handleBlur,
+                }
+              )}
+              {isTouched(key) && (
+                <div className="errors">
+                  {(errors[key] ?? []).map((error) => (
+                    <span className="error">{error}</span>
+                  ))}
+                </div>
+              )}
+            </InputLayout>
+          </>
+        )
+      );
+  };
+
   return (
     <div className={className}>
       <form action="" onSubmit={handleSubmit}>
-        {sectionValues.map((section) => (
-          <SectionLayout title={section.title} subtitle={section?.subtitle}>
-            {Object.keys(values)
-              .filter((key) => section.fields[key])
-              .map((key) =>
-                !!section.fields[key]?.custom ? (
-                  section.fields[key].custom?.({ name: key, form })
-                ) : (
-                  <>
-                    <InputLayout label={section.fields[key].label ?? ""}>
-                      {createElement(
-                        InputComponent[
-                          section.fields[key].type ?? InputType.Text
-                        ],
-                        {
-                          name: key,
-                          value: values[key].toString(),
-                          options: section.fields[key]?.valueOptions,
-                          handleChange,
-                          handleBlur,
-                        }
-                      )}
-                      {isTouched(key) && (
-                        <div className="errors">
-                          {(errors[key] ?? []).map((error) => (
-                            <span className="error">{error}</span>
-                          ))}
-                        </div>
-                      )}
-                    </InputLayout>
-                  </>
-                )
-              )}
-          </SectionLayout>
-        ))}
+        {sectionValues.length === 0 && renderForm(fields)}
+        {sectionValues.length > 0 && (
+          <>
+            {sectionValues.map((section) => (
+              <SectionLayout title={section.title} subtitle={section?.subtitle}>
+                {renderForm(section.fields)}
+              </SectionLayout>
+            ))}
+          </>
+        )}
         <button type="submit">Submit</button>
       </form>
     </div>

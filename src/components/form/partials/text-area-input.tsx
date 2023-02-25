@@ -14,9 +14,8 @@ const TextAreaInput = ({ name, value, handleChange, handleBlur }: Props) => {
       name={name}
       onChange={handleChange}
       onBlur={handleBlur}
-    >
-      {value}
-    </textarea>
+      value={value}
+    />
   );
 };
 
