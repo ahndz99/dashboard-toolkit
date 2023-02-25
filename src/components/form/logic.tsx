@@ -71,8 +71,8 @@ const Form = ({ className = "", fields, sections, onSubmit }: Props) => {
               )}
               {isTouched(key) && (
                 <div className="errors">
-                  {(errors[key] ?? []).map((error) => (
-                    <span className="error">{error}</span>
+                  {Object.keys(errors[key] ?? []).map((errorKey) => (
+                    <span className="error">{errors[key][errorKey]}</span>
                   ))}
                 </div>
               )}

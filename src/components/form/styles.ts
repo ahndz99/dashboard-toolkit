@@ -53,6 +53,12 @@ export default css`
     border-radius: 5px;
   }
 
+  .select-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
   .checkbox-input,
   .radio-input {
     margin-right: auto;

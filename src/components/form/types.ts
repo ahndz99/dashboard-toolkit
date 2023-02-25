@@ -10,6 +10,9 @@ export type FieldsTypes = {
       maxLength?: number;
       minLength?: number;
       mandatory?: boolean;
+      customValidation?: (
+        value: any
+      ) => { name: string; invalid: boolean; message: string }[];
     };
     valueOptions?: {
       label: string;
@@ -22,8 +25,7 @@ export type FormType = {
   fields: FieldsTypes;
   values: { [x: string]: any };
   setFieldValue: (name: string, value: any) => void;
-  errors: { [x: string]: string[] };
-  setFieldError: (name: string, value: string[]) => void;
+  errors: { [x: string]: { [x: string]: string } };
   touched: { [x: string]: boolean };
   setFieldTouched: (name: string, value: boolean) => void;
   isTouched: (name: string) => boolean;

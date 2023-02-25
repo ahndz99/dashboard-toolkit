@@ -19,18 +19,17 @@ const SelectInput = ({
   handleBlur,
 }: Props) => {
   return (
-    <>
-      <select
-        name={name}
-        value={value}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      >
-        {options.map((option) => (
-          <option value={option.value}>{option.label}</option>
-        ))}
-      </select>
-    </>
+    <select
+      className="select-input"
+      name={name}
+      value={value}
+      onChange={handleChange}
+      onBlur={handleBlur}
+    >
+      {options.map((option) => (
+        <option value={option.value}>{option.label}</option>
+      ))}
+    </select>
   );
 };
 

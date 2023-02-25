@@ -22,14 +22,11 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
     }));
   };
 
-  const [errors, setErrors] = useState<{ [x: string]: string[] }>({});
+  const [errors, setErrors] = useState<{
+    [x: string]: { [x: string]: string };
+  }>({});
 
-  const setFieldError = (name: string, value: string[]) => {
-    setErrors((errors) => ({
-      ...errors,
-      [name]: value,
-    }));
-  };
+  console.log({ errors });
 
   const [touched, setTouched] = useState<{ [x: string]: boolean }>({});
 
@@ -51,7 +48,7 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
   }, [fields]);
 
   useEffect(() => {
-    const newErrors: { [x: string]: string[] } = { ...errors };
+    const newErrors: { [x: string]: { [x: string]: string } } = { ...errors };
 
     if (!values) {
       return;
@@ -62,36 +59,34 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
 
       const value = values?.[key];
 
-      const addOrRemoveFromErrors = (isTrue: boolean, textError: string) => {
+      const addOrRemoveFromErrors = (
+        name: string,
+        isTrue: boolean,
+        textError: string
+      ) => {
         const error = newErrors[key] ?? [];
 
-        const haveItemInArray = error.some(
-          (errorItem) => errorItem === textError
-        );
+        const haveErrorInItem = error[name];
 
         if (isTrue) {
-          if (!haveItemInArray) {
-            newErrors[key] = [...error, textError];
+          if (!haveErrorInItem) {
+            newErrors[key] = { ...error, ...{ [name]: textError } };
           }
         } else {
-          if (haveItemInArray) {
-            newErrors[key] = errors[key].filter(
-              (errorItem) => errorItem !== textError
-            );
-            if (newErrors[key].length === 0) {
-              delete newErrors[key];
-            }
+          if (haveErrorInItem) {
+            delete errors[key][name];
           }
         }
       };
 
       if (!!fieldOptions?.mandatory) {
-        addOrRemoveFromErrors(!value, mandatoryErrorText);
+        addOrRemoveFromErrors("mandatory", !value, mandatoryErrorText);
       }
 
       if (typeof value === "string") {
         if (fieldOptions?.minLength) {
           addOrRemoveFromErrors(
+            "minLength",
             value.length < fieldOptions?.minLength,
             minLengthErrorText
           );
@@ -99,10 +94,19 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
 
         if (fieldOptions?.maxLength) {
           addOrRemoveFromErrors(
+            "maxLength",
             value.length > fieldOptions?.maxLength,
             maxLengthErrorText
           );
         }
+      }
+
+      if (!!fieldOptions?.customValidation) {
+        const validations = fieldOptions?.customValidation(value);
+        Object.keys(validations).forEach((key) => {
+          const { name, invalid, message } = validations[key];
+          addOrRemoveFromErrors(name, invalid, message);
+        });
       }
 
       setErrors(newErrors);
@@ -158,7 +162,6 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
       values,
       setFieldValue,
       errors,
-      setFieldError,
       touched,
       setFieldTouched,
       isTouched,
@@ -172,7 +175,6 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
     values,
     setFieldValue,
     errors,
-    setFieldError,
     touched,
     setFieldTouched,
     isTouched,

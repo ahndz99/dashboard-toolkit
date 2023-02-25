@@ -87,6 +87,24 @@ Default.args = {
         maxLength: 10,
         minLength: 2,
         mandatory: true,
+        customValidation: (value: any) => {
+          let errors = {};
+          if (value === "hola") {
+            errors = {
+              ...errors,
+              name: "hola",
+              invalid: false,
+            };
+          } else {
+            errors = {
+              ...errors,
+              name: "hola",
+              invalid: true,
+              message: "El texto debe decir hola",
+            };
+          }
+          return errors;
+        },
       },
     },
     date: {
@@ -237,7 +255,7 @@ SelectInput.args = {
   onSubmit,
   fields: {
     hola: {
-      value: "hola a ti",
+      value: "option3",
       valueOptions: [
         {
           label: "option 1",
