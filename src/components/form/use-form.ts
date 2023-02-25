@@ -116,6 +116,10 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
       currValue = checked;
     }
 
+    if (type === "date") {
+      currValue = new Date(value);
+    }
+
     setValues((values) => ({
       ...values,
       [name]: currValue,
@@ -138,6 +142,16 @@ const useForm = ({ fields, onSubmit }: Props): FormType => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
+
+    if (errors) {
+      setTouched(
+        Object.keys(values)
+          .map((key: string) => ({ [key]: true }))
+          .reduce((acc, curr) => ({ ...acc, ...curr }), {})
+      );
+      return;
+    }
+
     onSubmit({
       values,
       setFieldValue,

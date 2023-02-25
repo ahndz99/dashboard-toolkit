@@ -128,3 +128,23 @@ CheckboxInput.args = {
     },
   },
 };
+
+const d = new Date();
+d.setDate(d.getDate() - 5);
+
+export const DateInput = Template.bind({});
+DateInput.args = {
+  onSubmit: (form: any) => {
+    console.log(form);
+  },
+  fields: {
+    hola: {
+      value: d,
+      label: "This is the label",
+      type: "date",
+      options: {
+        mandatory: true,
+      },
+    },
+  },
+};
